@@ -1,87 +1,132 @@
-<!DOCTYPE html><html lang="hu">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aurysi Lélekkártya Húzó</title>
+  <meta charset="UTF-8">
+  <title>Soul Card Drawer</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #fef9ed;
-      color: #333;
+      background-color: #fff8e1;
+      font-family: sans-serif;
       text-align: center;
+      margin: 0;
+      padding: 20px;
     }
-    .card {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin: 20px auto;
-      max-width: 400px;
-      overflow: hidden;
-      background: white;
+
+    h1 {
+      color: #444;
     }
-    img {
-      width: 100%;
-      height: auto;
-    }
-    .text {
-      padding: 15px;
-    }
+
     button {
       padding: 10px 20px;
       font-size: 16px;
-      margin-top: 20px;
-      background-color: #d98c8c;
+      background-color: #c88;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-bottom: 20px; /* Added some space below the button */
+    }
+
+    #cardDisplay {
+      margin-top: 30px;
+    }
+
+    #cardDisplay img {
+      width: auto;
+      max-width: 90%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #cardText {
+      margin-top: 20px;
+      font-size: 1.1em;
+      color: #333;
+      white-space: pre-wrap; /* To preserve line breaks from the text */
+      text-align: left; /* Align text to left for readability */
+      max-width: 600px; /* Limit width for better readability */
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #fefefe;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <h1>Aurysi Lélekkártya Húzó</h1>
-  <p>Nyomd meg a gombot egy kártya húzásához:</p>
-  <button onclick="drawCard()">Kártya húzása</button>
-  <div class="card" id="cardContainer"></div>  <script>
-    const cards = [
-      {
-        title: "1. Nap és Hold ☀️🌙",
-        text: "Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét, a tudatos és a tudattalan találkozása.\n\nÉrzelmi-energetikai szint: Lelki kettősséged jelenik meg: nappal a racionális éned, éjjel az álmaid üzennek. Ha kibillent vagy, ez a lap figyelmeztet rá.\n\nCselekvési tanács: Figyelj az egyensúlyra! Most ne hozz végletes döntéseket. Meditáció, befelé figyelés segíthet visszatalálni önmagadhoz."
-      },
-      {
-        title: "2. Föld",
-        text: "Alapjelentés: Stabilitás, biztonság, anyaföld ölelése.\n\nÉrzelmi-energetikai szint: A mélyben gyökerező érzelmek, a higgadt belső bölcsesség és a kétely küzdelme.\n\nCselekvési tanács: Ha most túl földhözragadt vagy, nyiss a kreativitás felé. Ha szétcsúsztál, ideje lehorgonyozni: írj listát, rendezd a teret magad körül."
-      },
-      {
-        title: "3. Tűz",
-        text: "Alapjelentés: Szenvedély, teremtőerő, lobbanás – de akár pusztulás is.\n\nÉrzelmi-energetikai szint: Ég benned valami. Vágy, harag, inspiráció – de mi hajt valójában? A tűz belülről perzsel vagy kifelé tör?\n\nCselekvési tanács: Ne hagyd, hogy a tűz elégessen – használd inkább gyújtóerőként! Alkoss, mozogj, vezess le energiát biztonságos csatornákon."
-      },
-      {
-        title: "4. Víz",
-        text: "Alapjelentés: Érzelem, bőség, tisztulás. Az élet esszenciája.\n\nÉrzelmi-energetikai szint: A benned hullámzó érzések most felerősödhetnek. A víz gyengéden ringat vagy eláraszt – hallgasd meg a lelked.\n\nCselekvési tanács: Engedd meg magadnak a sírást, a lazítást, a gyógyulást. Ne zárd el a folyamatot – minden könny egy felszabadulás."
-      },
-      {
-        title: "5. Fém 🪙",
-        text: "Alapjelentés: Siker, aratás, érettség, stabilitás – de néha túlzott kontroll is.\n\nÉrzelmi-energetikai szint: Most erőd van. Összeszedettség, koncentráció, fegyelem – de nem mindenhez kell vasakarat.\n\nCselekvési tanács: Légy tudatos az értékeidre. Hálával fogadd a sikereket, de ne zárd le magad a spontaneitás elől."
-      },
-      {
-        title: "6. Fa",
-        text: "Alapjelentés: Növekedés, fejlődés, kapcsolat az élő természettel.\n\nÉrzelmi-energetikai szint: Valami új hajt benned, amit ápolni kell. Figyeld, hol tudsz gyógyulni, hol nyílsz meg a növekedésnek.\n\nCselekvési tanács: Gondozd magad, mint egy fát. Adj magadnak napfényt, teret, vizet. Táplálkozz jól, és szívd magadba az életet."
-      }
-    ];
+  <h1>Soul Card Drawer</h1>
+  <p>Press the button to draw a card:</p>
+  <button onclick="drawCard()">Draw Card</button>
+  <div id="cardDisplay"></div>
+  <div id="cardText"></div> <script>
+    // Define the card texts in an object, indexed from 1 to 18
+    // The order and content match the updated list you provided.
+    const cardMeanings = {
+      1: "Nap és Hold. Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét, a tudatos és a tudattalan találkozása. Érzelmi-energetikai szint: Lelki kettősséged jelenik meg: nappal a racionális éned, éjjel az álmaid üzennek. Ha kibillent vagy, ez a lap figyelmeztet rá. Cselekvési tanács: Figyelj az egyensúlyra! Most ne hozz végletes döntéseket. Meditáció, befelé figyelés segíthet visszatalálni önmagadhoz.",
+      2: "Föld. Alapjelentés: Stabilitás, biztonság, anyaföld ölelése. Érzelmi-energetikai szint: A mélyben gyökerező érzelmek, a higgadt belső bölcsesség és a kétely küzdelme. Cselekvési tanács: Ha most túl földhözragadt vagy, nyiss a kreativitás felé. Ha szétcsúsztál, ideje lehorgonyozni: írj listát, rendezd a teret magad körül.",
+      3: "Tűz. Alapjelentés: Szenvedély, teremtőerő, lobbanás – de akár pusztulás is. Érzelmi-energetikai szint: Ég benned valami. Vágy, harag, inspiráció – de mi hajt valójában? A tűz belülről perzsel vagy kifelé tör? Cselekvési tanács: Ne hagyd, hogy a tűz elégessen – használd inkább gyújtóerőként! Alkoss, mozogj, vezess le energiát biztonságos csatornákon.",
+      4: "Víz. Alapjelentés: Érzelem, bőség, tisztulás. Az élet esszenciája. Érzelmi-energetikai szint: A benned hullámzó érzések most felerősödhetnek. A víz gyengéden ringat vagy eláraszt – hallgasd meg a lelked. Cselekvési tanács: Engedd meg magadnak a sírást, a lazítást, a gyógyulást. Ne zárd el a folyamatot – minden könny egy felszabadulás.",
+      5: "Fém. Alapjelentés: Siker, aratás, érettség, stabilitás – de néha túlzott kontroll is. Érzelmi-energetikai szint: Most erőd van. Összeszedettség, koncentráció, fegyelem – de nem mindenhez kell vasakarat. Cselekvési tanács: Légy tudatos az értékeidre. Hálával fogadd a sikereket, de ne zárd le magad a spontaneitás elől.",
+      6: "Fa. Alapjelentés: Növekedés, teremtés, kibontakozás. Érzelmi-energetikai szint: Belső hajtásaid most erősödnek – alkotnál, tanulnál, nyílnál. De lehet, hogy a türelmetlenség is veled van. Cselekvési tanács: Tartsd szem előtt: a fának idő kell a növekedéshez. Lépésről lépésre haladj, ne siettesd, ami még bimbó.",
+      7: "Börtön. Alapjelentés: Bezártság, korlátozás, lelki gát, elfojtás. Érzelmi-energetikai szint: Korlátozod magad – vagy valami kívülről akadályoz? Az igazi kulcs belül van. Cselekvési tanács: Ne félj megnézni a zárat – gyakran csak egy döntés választ el a szabadulástól.", // Updated order: Börtön is now card 7
+      8: "Halál. Alapjelentés: Vég, átalakulás, elengedés, új kezdet. Érzelmi-energetikai szint: Valami mélyen benned véget ér – de nem üresség jön, hanem átalakulás. A régi meghal, hogy az új megszülessen. Cselekvési tanács: Engedd el, amit már nem szolgál. Most nem küzdeni, hanem átváltozni kell.", // Updated order: Halál is now card 8
+      9: "Gyermek. Alapjelentés: Ártatlanság, őszinteség, újrakezdés, születés. Érzelmi-energetikai szint: A belső gyermeked hangja erősebb lehet most. Vágy az egyszerűségre, tiszta kapcsolódásra. Cselekvési tanács: Engedd meg magadnak az őszinteséget és a játékot. Ne bonyolítsd túl, ami szívből jön.",
+      10: "Doktor. Alapjelentés: Gyógyulás, problémamegoldás, önreflexió. Érzelmi-energetikai szint: Testi-lelki jelzés. Valami figyelmet kér benned – belül vagy kívül. Cselekvési tanács: Vizsgáld meg, hol van benned egyensúlytalanság. Ne halogasd a gyógyulás útját – akár egy beszélgetés, akár egy változás révén.",
+      11: "Temető. Alapjelentés: Lezárás, veszteség, békére lelés. Érzelmi-energetikai szint: A múlt súlya már nem fér a jelenbe. De a gyász megengedése hozza el a békét. Cselekvési tanács: Ne tartsd bent. Írd ki, sírd ki, engedd el. Akkor tud elcsendesedni, ha elbúcsúzol.",
+      12: "Nő. Alapjelentés: Érzékenység, női energia, csábítás, érzelmi kapcsolódás. Érzelmi-energetikai szint: Benned vagy körülötted női minőség ébred. Intuíció, gyengédség, de figyelj a határokra is. Cselekvési tanács: Légy őszinte magaddal – mit érzel, mire vágysz. Ne félj megmutatni sebezhetőségedet.",
+      13: "Férfi. Alapjelentés: Erő, biztonság, határozottság, férfi energia. Érzelmi-energetikai szint: A cselekvőerő hív. Itt az idő kiállni, dönteni, határozottnak lenni – de ne elnyomó módon. Cselekvési tanács: Tartsd kézben az irányítást – de ne feledd, az erő legmélyebb formája a felelősség.",
+      14: "Szív. Alapjelentés: Szerelem, kötődés, érzelem, szeretet. Érzelmi-energetikai szint: Szeretnél mélyen kapcsolódni. A szíved kinyílt vagy épp gyógyulni vágyik. Cselekvési tanács: Beszélj őszintén az érzéseidről. Szeress, de ne kapaszkodj.",
+      15: "Hulló falevél. Alapjelentés: Múlt, búcsú, elengedés, szorongás. Érzelmi-energetikai szint: Valami visszahúz. Egy emlék, veszteség vagy bűntudat akadályoz. Cselekvési tanács: Ne cipeld, amit már nem tudsz megváltoztatni. A levél hullása is a természet rendje.",
+      16: "Ellenség. Alapjelentés: Árulás, kétszínűség, belső konfliktus, önszabotázs. Érzelmi-energetikai szint: Valaki vagy valami akadályoz – kívül vagy belül. Vizsgálj meg minden gyanút! Cselekvési tanács: Ne engedd, hogy a bizalmatlanság vezessen. Inkább ismerd fel, ki vagy mi nem őszinte.",
+      17: "Homokóra. Alapjelentés: Idő, sors, türelem, várakozás, ciklus. Érzelmi-energetikai szint: Az idő sürgethet – vagy épp késlekedni látszik. De a ritmus most fontosabb, mint a gyorsaság. Cselekvési tanács: Légy jelen a mostban. Figyelj, mikor jön az igazi pillanat a lépésre.",
+      18: "Hajó. Alapjelentés: Utazás, áramlás, új kezdet, távolság. Érzelmi-energetikai szint: Útra kelsz – belül vagy kívül. Lehet, hogy búcsúzol, lehet, hogy új világba hajózol. Cselekvési tanács: Bízz a mozgásban. Az áramlás most visz valahová – csak ne hagyd el a kormányt.",
+    };
 
     function drawCard() {
-      const cardIndex = Math.floor(Math.random() * cards.length);
-      const card = cards[cardIndex];
-      const imagePath = `${cardIndex + 1}.jpg`;
+      const drawnNumber = Math.floor(Math.random() * 18) + 1; // Random number between 1 and 18
+      const imageSource = drawnNumber + '.png';
+      const cardTextContent = cardMeanings[drawnNumber];
 
-      document.getElementById("cardContainer").innerHTML = `
-        <img src="${imagePath}" alt="Kártya képe">
-        <div class="text">
-          <h2>${card.title}</h2>
-          <p>${card.text.replace(/\n/g, "<br>")}</p>
-        </div>
-      `;
+      // Display the image
+      document.getElementById("cardDisplay").innerHTML =
+        '<img src="' + imageSource + '" alt="Card Image">';
+
+      // Display the text
+      document.getElementById("cardText").innerText = cardTextContent;
+
+      // Speak the text
+      speakText(cardTextContent);
     }
-  </script></body>
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech to avoid overlapping
+        window.speechSynthesis.cancel(); 
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'hu-HU'; // Set language to Hungarian
+
+        // Optional: You can try to set a specific voice if you have multiple Hungarian voices
+        /*
+        window.speechSynthesis.onvoiceschanged = function() {
+          const voices = window.speechSynthesis.getVoices();
+          const hungarianVoice = voices.find(voice => voice.lang === 'hu-HU');
+          if (hungarianVoice) {
+            utterance.voice = hungarianVoice;
+          } else {
+            console.warn("No Hungarian voice found, using default.");
+          }
+        };
+        */
+        
+        window.speechSynthesis.speak(utterance);
+      } else {
+        console.warn("Speech Synthesis not supported in this browser.");
+        alert("Speech synthesis is not supported in your browser.");
+      }
+    }
+  </script>
+</body>
 </html>
