@@ -75,4 +75,57 @@
       10: "Temető. Alapjelentés: Lezárás, veszteség, békére lelés. Érzelmi-energetikai szint: A múlt súlya már nem fér a jelenbe. De a gyász megengedése hozza el a békét. Cselekvési tanács: Ne tartsd bent. Írd ki, sírd ki, engedd el. Akkor tud elcsendesedni, ha elbúcsúzol.",
       11: "Nő. Alapjelentés: Érzékenység, női energia, csábítás, érzelmi kapcsolódás. Érzelmi-energetikai szint: Benned vagy körülötted női minőség ébred. Intuíció, gyengédség, de figyelj a határokra is. Cselekvési tanács: Légy őszinte magaddal – mit érzel, mire vágysz. Ne félj megmutatni sebezhetőségedet.",
       12: "Férfi. Alapjelentés: Erő, biztonság, határozottság, férfi energia. Érzelmi-energetikai szint: A cselekvőerő hív. Itt az idő kiállni, dönteni, határozottnak lenni – de ne elnyomó módon. Cselekvési tanács: Tartsd kézben az irányítást – de ne feledd, az erő legmélyebb formája a felelősség.",
-      13: "Szív. Alapjelentés: Szerelem, kötődés, érzelem, szeretet. Érzelmi-energetikai szint:
+      13: "Szív. Alapjelentés: Szerelem, kötődés, érzelem, szeretet. Érzelmi-energetikai szint: Szeretnél mélyen kapcsolódni. A szíved kinyílt vagy épp gyógyulni vágyik. Cselekvési tanács: Beszélj őszintén az érzéseidről. Szeress, de ne kapaszkodj.",
+      14: "Hulló falevél. Alapjelentés: Múlt, búcsú, elengedés, szorongás. Érzelmi-energetikai szint: Valami visszahúz. Egy emlék, veszteség vagy bűntudat akadályoz. Cselekvési tanács: Ne cipeld, amit már nem tudsz megváltoztatni. A levél hullása is a természet rendje.",
+      15: "Ellenség. Alapjelentés: Árulás, kétszínűség, belső konfliktus, önszabotázs. Érzelmi-energetikai szint: Valaki vagy valami akadályoz – kívül vagy belül. Vizsgálj meg minden gyanút! Cselekvési tanács: Ne engedd, hogy a bizalmatlanság vezessen. Inkább ismerd fel, ki vagy mi nem őszinte.",
+      16: "Homokóra. Alapjelentés: Idő, sors, türelem, várakozás, ciklus. Érzelmi-energetikai szint: Az idő sürgethet – vagy épp késlekedni látszik. De a ritmus most fontosabb, mint a gyorsaság. Cselekvési tanács: Légy jelen a mostban. Figyelj, mikor jön az igazi pillanat a lépésre.",
+      17: "Börtön. Alapjelentés: Bezártság, korlátozás, lelki gát, elfojtás. Érzelmi-energetikai szint: Korlátozod magad – vagy valami kívülről akadályoz? Az igazi kulcs belül van. Cselekvési tanács: Ne félj megnézni a zárat – gyakran csak egy döntés választ el a szabadulástól.",
+      18: "Hajó. Alapjelentés: Utazás, áramlás, új kezdet, távolság. Érzelmi-energetikai szint: Útra kelsz – belül vagy kívül. Lehet, hogy búcsúzol, lehet, hogy új világba hajózol. Cselekvési tanács: Bízz a mozgásban. Az áramlás most visz valahová – csak ne hagyd el a kormányt.",
+    };
+
+    function drawCard() {
+      const drawnNumber = Math.floor(Math.random() * 18) + 1; // Random number between 1 and 18
+      const imageSource = drawnNumber + '.png';
+      const cardTextContent = cardMeanings[drawnNumber];
+
+      // Display the image
+      document.getElementById("cardDisplay").innerHTML =
+        '<img src="' + imageSource + '" alt="Card Image">';
+
+      // Display the text
+      document.getElementById("cardText").innerText = cardTextContent;
+
+      // Speak the text
+      speakText(cardTextContent);
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        // Cancel any ongoing speech to avoid overlapping
+        window.speechSynthesis.cancel(); 
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'hu-HU'; // Set language to Hungarian
+
+        // Optional: You can try to set a specific voice if you have multiple Hungarian voices
+        /*
+        window.speechSynthesis.onvoiceschanged = function() {
+          const voices = window.speechSynthesis.getVoices();
+          const hungarianVoice = voices.find(voice => voice.lang === 'hu-HU');
+          if (hungarianVoice) {
+            utterance.voice = hungarianVoice;
+          } else {
+            console.warn("No Hungarian voice found, using default.");
+          }
+        };
+        */
+        
+        window.speechSynthesis.speak(utterance);
+      } else {
+        console.warn("Speech Synthesis not supported in this browser.");
+        alert("Speech synthesis is not supported in your browser.");
+      }
+    }
+  </script>
+</body>
+</html>
