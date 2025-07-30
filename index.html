@@ -24,7 +24,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin-bottom: 20px; /* Added some space below the button */
+      margin-bottom: 20px;
     }
 
     #cardDisplay {
@@ -43,9 +43,9 @@
       margin-top: 20px;
       font-size: 1.1em;
       color: #333;
-      white-space: pre-wrap; /* To preserve line breaks from the text */
-      text-align: left; /* Align text to left for readability */
-      max-width: 600px; /* Limit width for better readability */
+      white-space: pre-wrap;
+      text-align: left;
+      max-width: 600px;
       margin-left: auto;
       margin-right: auto;
       padding: 10px;
@@ -60,9 +60,11 @@
   <p>Press the button to draw a card:</p>
   <button onclick="drawCard()">Draw Card</button>
   <div id="cardDisplay"></div>
-  <div id="cardText"></div> <script>
+  <div id="cardText"></div>
+
+  <script>
     // Define the card texts in an object, indexed from 1 to 18
-    // The order and content match the updated list you provided.
+    // This order and content now exactly match the latest list you provided.
     const cardMeanings = {
       1: "Nap és Hold. Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét, a tudatos és a tudattalan találkozása. Érzelmi-energetikai szint: Lelki kettősséged jelenik meg: nappal a racionális éned, éjjel az álmaid üzennek. Ha kibillent vagy, ez a lap figyelmeztet rá. Cselekvési tanács: Figyelj az egyensúlyra! Most ne hozz végletes döntéseket. Meditáció, befelé figyelés segíthet visszatalálni önmagadhoz.",
       2: "Föld. Alapjelentés: Stabilitás, biztonság, anyaföld ölelése. Érzelmi-energetikai szint: A mélyben gyökerező érzelmek, a higgadt belső bölcsesség és a kétely küzdelme. Cselekvési tanács: Ha most túl földhözragadt vagy, nyiss a kreativitás felé. Ha szétcsúsztál, ideje lehorgonyozni: írj listát, rendezd a teret magad körül.",
@@ -70,8 +72,8 @@
       4: "Víz. Alapjelentés: Érzelem, bőség, tisztulás. Az élet esszenciája. Érzelmi-energetikai szint: A benned hullámzó érzések most felerősödhetnek. A víz gyengéden ringat vagy eláraszt – hallgasd meg a lelked. Cselekvési tanács: Engedd meg magadnak a sírást, a lazítást, a gyógyulást. Ne zárd el a folyamatot – minden könny egy felszabadulás.",
       5: "Fém. Alapjelentés: Siker, aratás, érettség, stabilitás – de néha túlzott kontroll is. Érzelmi-energetikai szint: Most erőd van. Összeszedettség, koncentráció, fegyelem – de nem mindenhez kell vasakarat. Cselekvési tanács: Légy tudatos az értékeidre. Hálával fogadd a sikereket, de ne zárd le magad a spontaneitás elől.",
       6: "Fa. Alapjelentés: Növekedés, teremtés, kibontakozás. Érzelmi-energetikai szint: Belső hajtásaid most erősödnek – alkotnál, tanulnál, nyílnál. De lehet, hogy a türelmetlenség is veled van. Cselekvési tanács: Tartsd szem előtt: a fának idő kell a növekedéshez. Lépésről lépésre haladj, ne siettesd, ami még bimbó.",
-      7: "Börtön. Alapjelentés: Bezártság, korlátozás, lelki gát, elfojtás. Érzelmi-energetikai szint: Korlátozod magad – vagy valami kívülről akadályoz? Az igazi kulcs belül van. Cselekvési tanács: Ne félj megnézni a zárat – gyakran csak egy döntés választ el a szabadulástól.", // Updated order: Börtön is now card 7
-      8: "Halál. Alapjelentés: Vég, átalakulás, elengedés, új kezdet. Érzelmi-energetikai szint: Valami mélyen benned véget ér – de nem üresség jön, hanem átalakulás. A régi meghal, hogy az új megszülessen. Cselekvési tanács: Engedd el, amit már nem szolgál. Most nem küzdeni, hanem átváltozni kell.", // Updated order: Halál is now card 8
+      7: "Börtön. Alapjelentés: Bezártság, korlátozás, lelki gát, elfojtás. Érzelmi-energetikai szint: Korlátozod magad – vagy valami kívülről akadályoz? Az igazi kulcs belül van. Cselekvési tanács: Ne félj megnézni a zárat – gyakran csak egy döntés választ el a szabadulástól.", // Updated as per your latest list
+      8: "Halál. Alapjelentés: Vég, átalakulás, elengedés, új kezdet. Érzelmi-energetikai szint: Valami mélyen benned véget ér – de nem üresség jön, hanem átalakulás. A régi meghal, hogy az új megszülessen. Cselekvési tanács: Engedd el, amit már nem szolgál. Most nem küzdeni, hanem átváltozni kell.", // Updated as per your latest list
       9: "Gyermek. Alapjelentés: Ártatlanság, őszinteség, újrakezdés, születés. Érzelmi-energetikai szint: A belső gyermeked hangja erősebb lehet most. Vágy az egyszerűségre, tiszta kapcsolódásra. Cselekvési tanács: Engedd meg magadnak az őszinteséget és a játékot. Ne bonyolítsd túl, ami szívből jön.",
       10: "Doktor. Alapjelentés: Gyógyulás, problémamegoldás, önreflexió. Érzelmi-energetikai szint: Testi-lelki jelzés. Valami figyelmet kér benned – belül vagy kívül. Cselekvési tanács: Vizsgáld meg, hol van benned egyensúlytalanság. Ne halogasd a gyógyulás útját – akár egy beszélgetés, akár egy változás révén.",
       11: "Temető. Alapjelentés: Lezárás, veszteség, békére lelés. Érzelmi-energetikai szint: A múlt súlya már nem fér a jelenbe. De a gyász megengedése hozza el a békét. Cselekvési tanács: Ne tartsd bent. Írd ki, sírd ki, engedd el. Akkor tud elcsendesedni, ha elbúcsúzol.",
@@ -85,41 +87,24 @@
     };
 
     function drawCard() {
-      const drawnNumber = Math.floor(Math.random() * 18) + 1; // Random number between 1 and 18
+      const drawnNumber = Math.floor(Math.random() * 18) + 1;
       const imageSource = drawnNumber + '.png';
       const cardTextContent = cardMeanings[drawnNumber];
 
-      // Display the image
       document.getElementById("cardDisplay").innerHTML =
         '<img src="' + imageSource + '" alt="Card Image">';
 
-      // Display the text
       document.getElementById("cardText").innerText = cardTextContent;
 
-      // Speak the text
       speakText(cardTextContent);
     }
 
     function speakText(text) {
       if ('speechSynthesis' in window) {
-        // Cancel any ongoing speech to avoid overlapping
         window.speechSynthesis.cancel(); 
 
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'hu-HU'; // Set language to Hungarian
-
-        // Optional: You can try to set a specific voice if you have multiple Hungarian voices
-        /*
-        window.speechSynthesis.onvoiceschanged = function() {
-          const voices = window.speechSynthesis.getVoices();
-          const hungarianVoice = voices.find(voice => voice.lang === 'hu-HU');
-          if (hungarianVoice) {
-            utterance.voice = hungarianVoice;
-          } else {
-            console.warn("No Hungarian voice found, using default.");
-          }
-        };
-        */
+        utterance.lang = 'hu-HU';
         
         window.speechSynthesis.speak(utterance);
       } else {
