@@ -1,95 +1,83 @@
-<!DOCTYPE html><html lang="hu">
+<!DOCTYPE html>
+<html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Aurysi Lélekkártya Húzó</title>
+  <title>Lélekkártya-fiók</title>
   <style>
     body {
-      background-color: #fff8e1;
+      background: #fff8e1;
       font-family: sans-serif;
       text-align: center;
-      margin: 0;
-      padding: 20px;
-    }h1 {
-  color: #444;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #c88;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-#cardDisplay {
-  margin-top: 30px;
-}
-
-#cardDisplay img {
-  width: auto;
-  max-width: 90%;
-  height: auto;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-#cardText {
-  margin-top: 20px;
-  font-size: 1.1em;
-  color: #333;
-  white-space: pre-wrap;
-  text-align: left;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 10px;
-  border: 1px solid #ddd;
-  background-color: #fefefe;
-  border-radius: 8px;
-}
-
+      padding: 1rem;
+    }
+    button {
+      padding: 0.6rem 1.2rem;
+      background: #d48b7a;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #card {
+      margin-top: 20px;
+    }
+    img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    #text {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
-  <h1>Aurysi Lélekkártya Húzó</h1>
+  <h1>Lélekkártya-fiók</h1>
   <p>Nyomd meg a gombot egy kártya húzásához:</p>
-  <button onclick="drawCard()">Kártya húzása</button>
-  <div id="cardDisplay"></div>
-  <div id="cardText"></div>  <script>
-    const cardMeanings = {
-      1: `Nap és Hold
-Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét, a tudatos és a tudattalan találkozása.
-Érzelmi-energetikai szint: Lelki kettősséged jelenik meg: nappal a racionális éned, éjjel az álmaid üzennek. Ha kibillent vagy, ez a lap figyelmeztet rá.
-Cselekvési tanács: Figyelj az egyensúlyra! Most ne hozz végletes döntéseket. Meditáció, befelé figyelés segíthet visszatalálni önmagadhoz.`,
-      2: `Föld
-Alapjelentés: Stabilitás, biztonság, anyaföld ölelése.
-Érzelmi-energetikai szint: A mélyben gyökerező érzelmek, a higgadt belső bölcsesség és a kétely küzdelme.
-Cselekvési tanács: Ha most túl földhözragadt vagy, nyiss a kreativitás felé. Ha szétcsúsztál, ideje lehorgonyozni: írj listát, rendezd a teret magad körül.`,
-      // ... teljes szöveg 3–18-ig következik, amit az előbb összerendeztem
+  <button onclick="drawCard()">Húzókártya</button>
+  <div id="card">
+    <img id="cardImage" src="" alt="">
+    <div id="text"></div>
+  </div>
+
+  <script>
+    const cards = {
+      1: "1. Nő\nAlapjelentés: Érzékiség, szépség, befogadás, női minőség.\nÉrzelmi-energetikai szint: Figyelmed most a belső világod felé fordul. Kapcsolódj önmagadhoz, és fogadd be az élet ajándékait.\nCselekvési tanács: Pihenj, érezz, nyílj meg – és merd önmagadat szeretni.",
+      2: "2. Föld\nAlapjelentés: Stabilitás, biztonság, megérkezés, fizikai világ.\nÉrzelmi-energetikai szint: Most a földelés és a valóságban való jelenlét a kulcs. Gyökerezz le.\nCselekvési tanács: Figyelj a tested jelzéseire, a környezetedre és az alapvető szükségleteidre.",
+      3: "3. Tűz\nAlapjelentés: Szenvedély, kreativitás, cselekvés, belső láng.\nÉrzelmi-energetikai szint: Valami új akar megszületni benned – mozdulj rá!\nCselekvési tanács: Merj kezdeményezni, és ne félj kilépni a komfortzónából.",
+      4: "4. Víz\nAlapjelentés: Érzelem, áramlás, változás, tisztulás.\nÉrzelmi-energetikai szint: Engedd meg az érzéseidnek, hogy mozgásba jöjjenek.\nCselekvési tanács: Légy őszinte önmagadhoz, és merd kimondani, amit érzel.",
+      5: "5. Levegő\nAlapjelentés: Szabadság, gondolatok, kommunikáció, kapcsolódás.\nÉrzelmi-energetikai szint: Nyisd meg az elméd és szíved új nézőpontok felé.\nCselekvési tanács: Beszélj nyíltan, figyelj másokra, és keress közös pontokat.",
+      6: "6. Természet\nAlapjelentés: Egység, ritmus, harmónia, ciklus.\nÉrzelmi-energetikai szint: Közeledj újra az élet természetes ritmusához.\nCselekvési tanács: Menj ki a szabadba, kapcsolódj a növényekhez, állatokhoz.",
+      7: "7. Anya\nAlapjelentés: Gondoskodás, szeretet, táplálás, védelmezés.\nÉrzelmi-energetikai szint: Itt az idő, hogy önmagadat is ápoló szeretettel öleld át.\nCselekvési tanács: Figyelj arra, akinek szüksége van rád – akár belső gyermekedre.",
+      8: "8. Árnyék\nAlapjelentés: Fájdalom, sebzettség, elfojtás, harag.\nÉrzelmi-energetikai szint: Egy elnyomott érzés a felszínre kívánkozik.\nCselekvési tanács: Ne ítéld el a sötét részeidet – ők is hozzád tartoznak.",
+      9: "9. Csillag\nAlapjelentés: Remény, álom, útmutatás, inspiráció.\nÉrzelmi-energetikai szint: Egy felsőbb sugallat érkezik hozzád – hallgass rá.\nCselekvési tanács: Kövesd a belső fényed, és tudd: minden lehetséges.",
+      10: "10. Hang\nAlapjelentés: Kifejezés, zene, rezgés, önazonosság.\nÉrzelmi-energetikai szint: Valami benned most hangot akar kapni.\nCselekvési tanács: Énekelj, írj, beszélj – szólalj meg, és vállald a saját hangodat.",
+      11: "11. Hold\nAlapjelentés: Ciklusok, álmok, intuíció, nőiség.\nÉrzelmi-energetikai szint: Most a belső világod, álmaid és ösztöneid a vezetők.\nCselekvési tanács: Tarts szünetet, figyelj befelé, és kövesd a Hold ütemét.",
+      12: "12. Férfi\nAlapjelentés: Erő, biztonság, határozottság, férfi energia.\nÉrzelmi-energetikai szint: A cselekvőerő hív. Itt az idő kiállni, dönteni, határozottnak lenni – de ne elnyomó módon.\nCselekvési tanács: Tartsd kézben az irányítást – de ne feledd, az erő legmélyebb formája a felelősség.",
+      13: "13. Ég\nAlapjelentés: Tágasság, szellem, hit, felsőbb rend.\nÉrzelmi-energetikai szint: Kapcsolódj a magasabb tudatodhoz, és tudd: nem vagy egyedül.\nCselekvési tanács: Imádkozz, meditálj, kérj segítséget az égiektől.",
+      14: "14. Szívkapcsolat\nAlapjelentés: Egymásra találás, szerelem, lélektárs, intimitás.\nÉrzelmi-energetikai szint: Most valódi szívkapcsolatot tapasztalhatsz.\nCselekvési tanács: Nyílj meg a másik előtt, és engedd, hogy kapcsolódjatok.",
+      15: "15. Seb\nAlapjelentés: Lelki fájdalom, veszteség, múltbéli sérülés.\nÉrzelmi-energetikai szint: Egy régi seb gyógyulni készül – de előbb emlékeztetnie kell.\nCselekvési tanács: Légy gyengéd magaddal, és ne siettesd a gyógyulást.",
+      16: "16. Hangszerek\nAlapjelentés: Kifejezőeszközök, kreativitás, közös alkotás.\nÉrzelmi-energetikai szint: Megszólal benned valami – adj neki formát.\nCselekvési tanács: Kapcsolódj másokhoz zenén vagy alkotáson keresztül.",
+      17: "17. Idő\nAlapjelentés: Türelem, ciklikusság, érés, jelenlét.\nÉrzelmi-energetikai szint: Most nem kell sietned – az idő dolgozik érted.\nCselekvési tanács: Bízz az élet ritmusában, és haladj lépésről lépésre.",
+      18: "18. Hajó\nAlapjelentés: Elindulás, változás, utazás, új szakasz.\nÉrzelmi-energetikai szint: Itt az idő, hogy útra kelj – akár belső, akár külső úton.\nCselekvési tanács: Fogadd el az ismeretlent, és indulj el bátran."
     };
 
     function drawCard() {
-      const drawnNumber = Math.floor(Math.random() * 18) + 1;
-      const imageSource = `${drawnNumber}.png`;
-      const cardTextContent = cardMeanings[drawnNumber];
+      const num = Math.floor(Math.random() * 18) + 1;
+      document.getElementById("cardImage").src = `kepek/${num}.png`;
+      const text = cards[num];
+      document.getElementById("text").innerText = text;
 
-      document.getElementById("cardDisplay").innerHTML = `<img src="${imageSource}" alt="Kártya">`;
-      document.getElementById("cardText").innerText = cardTextContent;
-      speakText(cardTextContent);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "hu-HU";
+      window.speechSynthesis.cancel(); // előző megszakítása
+      window.speechSynthesis.speak(utterance);
     }
-
-    function speakText(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'hu-HU';
-        window.speechSynthesis.speak(utterance);
-      } else {
-        alert("A beszédszintézis nem támogatott ebben a böngészőben.");
-      }
-    }
-  </script></body>
+  </script>
+</body>
 </html>
