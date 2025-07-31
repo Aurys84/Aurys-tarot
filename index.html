@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Soul Card Drawer</title>
+  <title>Aurysi Lélek Kártyák</title>
   <style>
     body {
       background-color: #fff8e1;
@@ -10,21 +10,34 @@
       text-align: center;
       margin: 0;
       padding: 20px;
+      color: #333;
     }
 
     h1 {
       color: #444;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #555;
+      margin-top: 30px;
+      margin-bottom: 15px;
     }
 
     button {
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 12px 25px;
+      font-size: 18px;
       background-color: #c88;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-bottom: 20px;
+      margin: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #b77;
     }
 
     #cardDisplay {
@@ -36,31 +49,118 @@
       max-width: 90%;
       height: auto;
       border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
     }
 
     #cardText {
-      margin-top: 20px;
-      font-size: 1.1em;
+      margin-top: 25px;
+      font-size: 1.15em;
       color: #333;
-      white-space: pre-wrap;
+      white-space: pre-wrap; /* Megőrzi a sortöréseket */
       text-align: left;
-      max-width: 600px;
+      max-width: 700px;
       margin-left: auto;
       margin-right: auto;
-      padding: 10px;
+      padding: 20px;
       border: 1px solid #ddd;
       background-color: #fefefe;
-      border-radius: 8px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      line-height: 1.6;
+    }
+
+    .info-section {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: #e0f2f7; /* Világoskék háttér */
+      border-radius: 10px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-section p {
+      margin-bottom: 10px;
+    }
+
+    .info-section ul {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding-left: 25px;
+    }
+
+    .info-section li {
+      margin-bottom: 5px;
+    }
+
+    .note {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Soul Card Drawer</h1>
-  <p>Press the button to draw a card:</p>
-  <button onclick="drawCard()">Draw Card</button>
+  <h1>Aurysi Lélek Kártyák</h1>
+  <p>Nyomd meg a gombot egy kártya húzásához:</p>
+  <button onclick="drawCard()">Kártya Húzása</button>
+  <button id="respeakButton" onclick="respeakCard()" style="display:none;">Újra felolvasás</button>
+  
   <div id="cardDisplay"></div>
   <div id="cardText"></div>
+
+  <div class="info-section">
+    <h2>Ha nincs hangfelolvasás:</h2>
+    <p>A weboldal a böngésződ beépített szövegfelolvasó (TTS) funkcióját használja. Ha nem hallasz hangot a kártya húzása után, kérjük, ellenőrizd az alábbi beállításokat:</p>
+
+    <h3>Android telefonon:</h3>
+    <ul>
+      <li>**Böngésző megnyitása:** Ha a linket egy chat alkalmazásban (pl. Messenger) kaptad, ne ott nyisd meg! Keresd az opciót, hogy **"Megnyitás Chrome-ban"** vagy "Megnyitás a böngészőben", és ott próbáld meg. Az alkalmazások beépített böngészői gyakran nem támogatják a hangfelolvasást.</li>
+      <li>**Szövegfelolvasó motor beállítása:**
+        <ol>
+          <li>Menj a telefon **Beállítások** menüjébe (fogaskerék ikon).</li>
+          <li>Keresd meg a **"Rendszer"**, **"Nyelv és bevitel"** vagy **"Kisegítő lehetőségek"** menüpontot.</li>
+          <li>Ezen belül keresd a **"Szövegfelolvasás kimenet"** vagy **"TTS beállítások"** opciót.</li>
+          <li>Győződj meg róla, hogy a **"Google szövegfelolvasó motor"** van kiválasztva alapértelmezettként.</li>
+          <li>A motor melletti fogaskerék ikonra kattintva ellenőrizd a **"Hangadatok telepítése"** menüben, hogy a **"Magyar" nyelv** le van-e töltve. Ha nem, töltsd le.</li>
+          <li>Teszteld a hangot a **"Példaszöveg meghallgatása"** funkcióval (ha van ilyen).</li>
+        </ol>
+      </li>
+      <li>**Böngésző engedélyek (Chrome):**
+        <ol>
+          <li>Nyisd meg a Chrome böngészőt.</li>
+          <li>Koppints a jobb felső sarokban lévő három pontra (Menü) > **Beállítások**.</li>
+          <li>Görgess le a **"Webhelybeállítások"** vagy "Webhelybeállítások" menüpontig.</li>
+          <li>Keresd meg a **"Hang"** vagy **"Automatikus lejátszás"** beállítást, és győződj meg róla, hogy engedélyezve van.</li>
+        </ol>
+      </li>
+    </ul>
+
+    <h3>Windows számítógépen (Chrome böngészővel):</h3>
+    <ul>
+      <li>**Böngésző frissítése:** Győződj meg róla, hogy a Chrome a legfrissebb verzió.</li>
+      <li>**Hangbeállítások ellenőrzése a Windowsban:**
+        <ol>
+          <li>Nyomd meg a **Windows gombot + I** a Beállítások megnyitásához.</li>
+          <li>Menj az **"Idő és nyelv"** > **"Nyelv és régió"** (vagy régebbi Windows-on "Beszed") menüpontra.</li>
+          <li>Keresd meg a **"Beszéd"** részt, és győződj meg róla, hogy a magyar nyelv telepítve van és kiválasztva. Szükség esetén telepítsd a magyar "hangcsomagot".</li>
+        </ol>
+      </li>
+      <li>**Böngésző engedélyek (Chrome):**
+        <ol>
+          <li>Nyisd meg a Chrome böngészőt.</li>
+          <li>Kattints a jobb felső sarokban lévő három pontra > **Beállítások**.</li>
+          <li>Bal oldalon válaszd az **"Adatvédelem és biztonság"** > **"Webhelybeállítások"** menüpontot.</li>
+          <li>Görgess le, és kattints a **"További tartalmi beállítások"** > **"Hang"** (vagy "Automatikus lejátszás") menüpontra.</li>
+          <li>Győződj meg róla, hogy az "Engedélyezze a webhelyeknek a hang lejátszását" opció van kiválasztva.</li>
+          <li>A "Viselkedés" részben, ha szerepel ott ez az oldal, ellenőrizd, hogy nincs-e "letiltva".</li>
+        </ol>
+      </li>
+    </ul>
+    <p class="note">A "Kártya Húzása" gombra kattintás után a böngészőnek engedélyeznie kell a hangfelolvasást. Ha elsőre nem szólal meg, próbáld meg újra, vagy ellenőrizd a böngésző címsora melletti hangszóró ikont, nincs-e elnémítva az oldal.</p>
+  </div>
 
   <script>
     // Define the card texts in an object, indexed from 1 to 18
@@ -86,32 +186,56 @@
       18: "Hajó. Alapjelentés: Utazás, áramlás, új kezdet, távolság. Érzelmi-energetikai szint: Útra kelsz – belül vagy kívül. Lehet, hogy búcsúzol, lehet, hogy új világba hajózol. Cselekvési tanács: Bízz a mozgásban. Az áramlás most visz valahová – csak ne hagyd el a kormányt.",
     };
 
+    let currentCardText = ""; // Tárolja az utoljára kihúzott kártya szövegét
+
     function drawCard() {
       const drawnNumber = Math.floor(Math.random() * 18) + 1;
-      const imageSource = drawnNumber + '.png';
-      const cardTextContent = cardMeanings[drawnNumber];
+      const imageSource = drawnNumber + '.png'; // Feltételezve, hogy a képek a gyökérkönyvtárban vannak
+      currentCardText = cardMeanings[drawnNumber]; // Elmentjük a szöveget
 
       document.getElementById("cardDisplay").innerHTML =
-        '<img src="' + imageSource + '" alt="Card Image">';
+        '<img src="' + imageSource + '" alt="Kártya Képe">';
 
-      document.getElementById("cardText").innerText = cardTextContent;
+      document.getElementById("cardText").innerText = currentCardText;
+      document.getElementById("respeakButton").style.display = "inline-block"; // Mutatjuk az újra felolvasás gombot
 
-      speakText(cardTextContent);
+      speakText(currentCardText);
+    }
+
+    function respeakCard() {
+      if (currentCardText) { // Csak akkor olvassa újra, ha van elmentett szöveg
+        speakText(currentCardText);
+      }
     }
 
     function speakText(text) {
       if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel(); 
+        window.speechSynthesis.cancel(); // Előző felolvasás leállítása
 
         const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'hu-HU';
+        utterance.lang = 'hu-HU'; // Magyar nyelv beállítása
+
+        // Opcionális: Hang kiválasztása, ha több magyar hang van (pl. Google TTS)
+        // const voices = window.speechSynthesis.getVoices();
+        // const hungarianVoice = voices.find(voice => voice.lang === 'hu-HU' || voice.lang.startsWith('hu-') && voice.name.includes('Google'));
+        // if (hungarianVoice) {
+        //   utterance.voice = hungarianVoice;
+        // } else {
+        //   console.warn("Nincs magyar hang talalhato, vagy nem a Google TTS.");
+        // }
         
         window.speechSynthesis.speak(utterance);
       } else {
-        console.warn("Speech Synthesis not supported in this browser.");
-        alert("Speech synthesis is not supported in your browser.");
+        console.warn("A beszédszintézis nem támogatott ebben a böngészőben.");
+        alert("A beszédszintézis (hangfelolvasás) nem támogatott ebben a böngészőben, vagy nincs megfelelően beállítva. Kérjük, ellenőrizze a lenti útmutatót!");
       }
     }
+
+    // Hangok betöltése a speech synthesis service-től (fontos a hang kiválasztásához)
+    window.speechSynthesis.onvoiceschanged = () => {
+      // Ez a függvény akkor fut le, amikor a böngésző betöltötte a hangokat.
+      // Esetleg itt lehetne beállítani az utterance.voice-t, ha több hang közül kell választani.
+    };
   </script>
 </body>
 </html>
