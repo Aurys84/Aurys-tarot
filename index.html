@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Soul Card Drawer</title>
@@ -24,10 +24,15 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin: 10px 5px;
+      margin-bottom: 20px;
+    }
+
+    #cardDisplay {
+      margin-top: 30px;
     }
 
     #cardDisplay img {
+      width: auto;
       max-width: 90%;
       height: auto;
       border-radius: 20px;
@@ -48,65 +53,65 @@
       background-color: #fefefe;
       border-radius: 8px;
     }
-
-    #instructions {
-      display: none;
-      margin-top: 20px;
-      font-size: 0.95em;
-      text-align: left;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 10px;
-      border: 1px solid #bbb;
-      background-color: #fffef6;
-      border-radius: 8px;
-      color: #444;
-    }
   </style>
 </head>
 <body>
   <h1>Soul Card Drawer</h1>
-  <p>Nyomd meg a gombot egy lélekkártya húzásához:</p>
-  <button onclick="drawCard()">Kártyahúzás</button>
-  <button onclick="repeatRead()">Újrafelolvasás</button>
-  <button onclick="toggleInstructions()">Felolvasási beállítás</button>
-
+  <p>Press the button to draw a card:</p>
+  <button onclick="drawCard()">Draw Card</button>
   <div id="cardDisplay"></div>
   <div id="cardText"></div>
-  <div id="instructions">
-    <strong>Felolvasási útmutató:</strong><br><br>
-    A hangos felolvasás működéséhez az alábbiak szükségesek:<br>
-    • Használj <b>Google Chrome</b> vagy <b>Edge</b> böngészőt Androidon.<br>
-    • Kapcsold be a böngészőben a „Szövegfelolvasás” funkciót, ha kérdezi.<br>
-    • Ha nem hallasz hangot, ellenőrizd a hangerőt és a böngésző engedélyeit.<br><br>
-    Ha továbbra sem működik, próbáld újraindítani az oldalt vagy engedélyezni a mikrofont, de főként <b>a szintetizátor hangengedély kell</b>!
-  </div>
 
   <script>
+    // Define the card texts in an object, indexed from 1 to 18
+    // This order and content now exactly match the latest list you provided.
     const cardMeanings = {
-      1: "Nap és Hold. Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét...",
-      2: "Föld. Alapjelentés: Stabilitás, biztonság, anyaföld ölelése...",
-      3: "Tűz. Alapjelentés: Szenvedély, teremtőerő, lobbanás – de akár pusztulás is...",
-      4: "Víz. Alapjelentés: Érzelem, bőség, tisztulás...",
-      5: "Fém. Alapjelentés: Siker, aratás, érettség, stabilitás...",
-      6: "Fa. Alapjelentés: Növekedés, teremtés, kibontakozás...",
-      7: "Börtön. Alapjelentés: Bezártság, korlátozás, lelki gát, elfojtás...",
-      8: "Halál. Alapjelentés: Vég, átalakulás, elengedés...",
-      9: "Gyermek. Alapjelentés: Ártatlanság, őszinteség, újrakezdés...",
-      10: "Doktor. Alapjelentés: Gyógyulás, problémamegoldás, önreflexió...",
-      11: "Temető. Alapjelentés: Lezárás, veszteség, békére lelés...",
-      12: "Nő. Alapjelentés: Érzékenység, női energia, csábítás, érzelmi kapcsolódás...",
-      13: "Férfi. Alapjelentés: Erő, biztonság, határozottság, férfi energia...",
-      14: "Szív. Alapjelentés: Szerelem, kötődés, érzelem, szeretet...",
-      15: "Hulló falevél. Alapjelentés: Múlt, búcsú, elengedés, szorongás...",
-      16: "Ellenség. Alapjelentés: Árulás, kétszínűség, belső konfliktus, önszabotázs...",
-      17: "Homokóra. Alapjelentés: Idő, sors, türelem, várakozás, ciklus...",
-      18: "Hajó. Alapjelentés: Utazás, áramlás, új kezdet, távolság..."
+      1: "Nap és Hold. Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét, a tudatos és a tudattalan találkozása. Érzelmi-energetikai szint: Lelki kettősséged jelenik meg: nappal a racionális éned, éjjel az álmaid üzennek. Ha kibillent vagy, ez a lap figyelmeztet rá. Cselekvési tanács: Figyelj az egyensúlyra! Most ne hozz végletes döntéseket. Meditáció, befelé figyelés segíthet visszatalálni önmagadhoz.",
+      2: "Föld. Alapjelentés: Stabilitás, biztonság, anyaföld ölelése. Érzelmi-energetikai szint: A mélyben gyökerező érzelmek, a higgadt belső bölcsesség és a kétely küzdelme. Cselekvési tanács: Ha most túl földhözragadt vagy, nyiss a kreativitás felé. Ha szétcsúsztál, ideje lehorgonyozni: írj listát, rendezd a teret magad körül.",
+      3: "Tűz. Alapjelentés: Szenvedély, teremtőerő, lobbanás – de akár pusztulás is. Érzelmi-energetikai szint: Ég benned valami. Vágy, harag, inspiráció – de mi hajt valójában? A tűz belülről perzsel vagy kifelé tör? Cselekvési tanács: Ne hagyd, hogy a tűz elégessen – használd inkább gyújtóerőként! Alkoss, mozogj, vezess le energiát biztonságos csatornákon.",
+      4: "Víz. Alapjelentés: Érzelem, bőség, tisztulás. Az élet esszenciája. Érzelmi-energetikai szint: A benned hullámzó érzések most felerősödhetnek. A víz gyengéden ringat vagy eláraszt – hallgasd meg a lelked. Cselekvési tanács: Engedd meg magadnak a sírást, a lazítást, a gyógyulást. Ne zárd el a folyamatot – minden könny egy felszabadulás.",
+      5: "Fém. Alapjelentés: Siker, aratás, érettség, stabilitás – de néha túlzott kontroll is. Érzelmi-energetikai szint: Most erőd van. Összeszedettség, koncentráció, fegyelem – de nem mindenhez kell vasakarat. Cselekvési tanács: Légy tudatos az értékeidre. Hálával fogadd a sikereket, de ne zárd le magad a spontaneitás elől.",
+      6: "Fa. Alapjelentés: Növekedés, teremtés, kibontakozás. Érzelmi-energetikai szint: Belső hajtásaid most erősödnek – alkotnál, tanulnál, nyílnál. De lehet, hogy a türelmetlenség is veled van. Cselekvési tanács: Tartsd szem előtt: a fának idő kell a növekedéshez. Lépésről lépésre haladj, ne siettesd, ami még bimbó.",
+      7: "Börtön. Alapjelentés: Bezártság, korlátozás, lelki gát, elfojtás. Érzelmi-energetikai szint: Korlátozod magad – vagy valami kívülről akadályoz? Az igazi kulcs belül van. Cselekvési tanács: Ne félj megnézni a zárat – gyakran csak egy döntés választ el a szabadulástól.", // Updated as per your latest list
+      8: "Halál. Alapjelentés: Vég, átalakulás, elengedés, új kezdet. Érzelmi-energetikai szint: Valami mélyen benned véget ér – de nem üresség jön, hanem átalakulás. A régi meghal, hogy az új megszülessen. Cselekvési tanács: Engedd el, amit már nem szolgál. Most nem küzdeni, hanem átváltozni kell.", // Updated as per your latest list
+      9: "Gyermek. Alapjelentés: Ártatlanság, őszinteség, újrakezdés, születés. Érzelmi-energetikai szint: A belső gyermeked hangja erősebb lehet most. Vágy az egyszerűségre, tiszta kapcsolódásra. Cselekvési tanács: Engedd meg magadnak az őszinteséget és a játékot. Ne bonyolítsd túl, ami szívből jön.",
+      10: "Doktor. Alapjelentés: Gyógyulás, problémamegoldás, önreflexió. Érzelmi-energetikai szint: Testi-lelki jelzés. Valami figyelmet kér benned – belül vagy kívül. Cselekvési tanács: Vizsgáld meg, hol van benned egyensúlytalanság. Ne halogasd a gyógyulás útját – akár egy beszélgetés, akár egy változás révén.",
+      11: "Temető. Alapjelentés: Lezárás, veszteség, békére lelés. Érzelmi-energetikai szint: A múlt súlya már nem fér a jelenbe. De a gyász megengedése hozza el a békét. Cselekvési tanács: Ne tartsd bent. Írd ki, sírd ki, engedd el. Akkor tud elcsendesedni, ha elbúcsúzol.",
+      12: "Nő. Alapjelentés: Érzékenység, női energia, csábítás, érzelmi kapcsolódás. Érzelmi-energetikai szint: Benned vagy körülötted női minőség ébred. Intuíció, gyengédség, de figyelj a határokra is. Cselekvési tanács: Légy őszinte magaddal – mit érzel, mire vágysz. Ne félj megmutatni sebezhetőségedet.",
+      13: "Férfi. Alapjelentés: Erő, biztonság, határozottság, férfi energia. Érzelmi-energetikai szint: A cselekvőerő hív. Itt az idő kiállni, dönteni, határozottnak lenni – de ne elnyomó módon. Cselekvési tanács: Tartsd kézben az irányítást – de ne feledd, az erő legmélyebb formája a felelősség.",
+      14: "Szív. Alapjelentés: Szerelem, kötődés, érzelem, szeretet. Érzelmi-energetikai szint: Szeretnél mélyen kapcsolódni. A szíved kinyílt vagy épp gyógyulni vágyik. Cselekvési tanács: Beszélj őszintén az érzéseidről. Szeress, de ne kapaszkodj.",
+      15: "Hulló falevél. Alapjelentés: Múlt, búcsú, elengedés, szorongás. Érzelmi-energetikai szint: Valami visszahúz. Egy emlék, veszteség vagy bűntudat akadályoz. Cselekvési tanács: Ne cipeld, amit már nem tudsz megváltoztatni. A levél hullása is a természet rendje.",
+      16: "Ellenség. Alapjelentés: Árulás, kétszínűség, belső konfliktus, önszabotázs. Érzelmi-energetikai szint: Valaki vagy valami akadályoz – kívül vagy belül. Vizsgálj meg minden gyanút! Cselekvési tanács: Ne engedd, hogy a bizalmatlanság vezessen. Inkább ismerd fel, ki vagy mi nem őszinte.",
+      17: "Homokóra. Alapjelentés: Idő, sors, türelem, várakozás, ciklus. Érzelmi-energetikai szint: Az idő sürgethet – vagy épp késlekedni látszik. De a ritmus most fontosabb, mint a gyorsaság. Cselekvési tanács: Légy jelen a mostban. Figyelj, mikor jön az igazi pillanat a lépésre.",
+      18: "Hajó. Alapjelentés: Utazás, áramlás, új kezdet, távolság. Érzelmi-energetikai szint: Útra kelsz – belül vagy kívül. Lehet, hogy búcsúzol, lehet, hogy új világba hajózol. Cselekvési tanács: Bízz a mozgásban. Az áramlás most visz valahová – csak ne hagyd el a kormányt.",
     };
 
-    let currentText = "";
-
     function drawCard() {
-      const number = Math.floor(Math.random() * 18) + 1;
-      const image =
+      const drawnNumber = Math.floor(Math.random() * 18) + 1;
+      const imageSource = drawnNumber + '.png';
+      const cardTextContent = cardMeanings[drawnNumber];
+
+      document.getElementById("cardDisplay").innerHTML =
+        '<img src="' + imageSource + '" alt="Card Image">';
+
+      document.getElementById("cardText").innerText = cardTextContent;
+
+      speakText(cardTextContent);
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); 
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'hu-HU';
+        
+        window.speechSynthesis.speak(utterance);
+      } else {
+        console.warn("Speech Synthesis not supported in this browser.");
+        alert("Speech synthesis is not supported in your browser.");
+      }
+    }
+  </script>
+</body>
+</html>
