@@ -24,15 +24,10 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin: 10px;
-    }
-
-    #cardDisplay {
-      margin-top: 30px;
+      margin: 10px 5px;
     }
 
     #cardDisplay img {
-      width: auto;
       max-width: 90%;
       height: auto;
       border-radius: 20px;
@@ -54,69 +49,48 @@
       border-radius: 8px;
     }
 
-    #controls {
+    #instructions {
+      display: none;
       margin-top: 20px;
+      font-size: 0.95em;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
+      border: 1px solid #bbb;
+      background-color: #fffef6;
+      border-radius: 8px;
+      color: #444;
     }
   </style>
 </head>
 <body>
   <h1>Soul Card Drawer</h1>
   <p>Nyomd meg a gombot egy lélekkártya húzásához:</p>
-  <div id="controls">
-    <button onclick="drawCard()">Kártyahúzás</button>
-    <button onclick="replayText()">Újrafelolvasás</button>
-    <button onclick="openHelp()">Felolvasási beállítás</button>
-  </div>
+  <button onclick="drawCard()">Kártyahúzás</button>
+  <button onclick="repeatRead()">Újrafelolvasás</button>
+  <button onclick="toggleInstructions()">Felolvasási beállítás</button>
+
   <div id="cardDisplay"></div>
   <div id="cardText"></div>
+  <div id="instructions">
+    <strong>Felolvasási útmutató:</strong><br><br>
+    A hangos felolvasás működéséhez az alábbiak szükségesek:<br>
+    • Használj <b>Google Chrome</b> vagy <b>Edge</b> böngészőt Androidon.<br>
+    • Kapcsold be a böngészőben a „Szövegfelolvasás” funkciót, ha kérdezi.<br>
+    • Ha nem hallasz hangot, ellenőrizd a hangerőt és a böngésző engedélyeit.<br><br>
+    Ha továbbra sem működik, próbáld újraindítani az oldalt vagy engedélyezni a mikrofont, de főként <b>a szintetizátor hangengedély kell</b>!
+  </div>
 
   <script>
     const cardMeanings = {
-      1: "Nap és Hold. Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét, a tudatos és a tudattalan találkozása. Érzelmi-energetikai szint: Lelki kettősséged jelenik meg: nappal a racionális éned, éjjel az álmaid üzennek. Ha kibillent vagy, ez a lap figyelmeztet rá. Cselekvési tanács: Figyelj az egyensúlyra! Most ne hozz végletes döntéseket. Meditáció, befelé figyelés segíthet visszatalálni önmagadhoz.",
+      1: "Nap és Hold. Alapjelentés: A benned és körülötted lévő egyensúly tükre – a világos és a sötét...",
       2: "Föld. Alapjelentés: Stabilitás, biztonság, anyaföld ölelése...",
-      // ... (Többi kártya ugyanígy, nem ismétlem el itt a hossz miatt)
-      18: "Hajó. Alapjelentés: Utazás, áramlás, új kezdet, távolság..."
-    };
-
-    let lastDrawnText = "";
-
-    function drawCard() {
-      const drawnNumber = Math.floor(Math.random() * 18) + 1;
-      const imageSource = drawnNumber + '.png';
-      const cardTextContent = cardMeanings[drawnNumber];
-
-      lastDrawnText = cardTextContent;
-
-      document.getElementById("cardDisplay").innerHTML =
-        '<img src="' + imageSource + '" alt="Kártya képe">';
-
-      document.getElementById("cardText").innerText = cardTextContent;
-
-      speakText(cardTextContent);
-    }
-
-    function speakText(text) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'hu-HU';
-        window.speechSynthesis.speak(utterance);
-      } else {
-        alert("Ez a böngésző nem támogatja a hangos felolvasást.");
-      }
-    }
-
-    function replayText() {
-      if (lastDrawnText) {
-        speakText(lastDrawnText);
-      } else {
-        alert("Előbb húzz egy kártyát!");
-      }
-    }
-
-    function openHelp() {
-      alert("Ha nem hallasz felolvasást:\n\n1. Ellenőrizd, hogy a médiahang nincs lenémítva.\n2. Androidon: böngészőből nyisd meg (pl. Chrome).\n3. Ha alkalmazásként mentetted le, a böngésző hangját is engedélyezni kell.\n4. Ha semmi nem működik: újraindítás, másik böngésző próbája.\n\nHa működik, élvezd a felolvasást! 💛");
-    }
-  </script>
-</body>
-</html>
+      3: "Tűz. Alapjelentés: Szenvedély, teremtőerő, lobbanás – de akár pusztulás is...",
+      4: "Víz. Alapjelentés: Érzelem, bőség, tisztulás...",
+      5: "Fém. Alapjelentés: Siker, aratás, érettség, stabilitás...",
+      6: "Fa. Alapjelentés: Növekedés, teremtés, kibontakozás...",
+      7: "Börtön. Alapjelentés: Bezártság, korlátozás, lelki gát, elfojtás...",
+      8: "Halál. Alapjelentés: Vég, átalakulás, elengedés...",
+      9: "Gyermek. Alapjelentés: Ártatlanság, ősz
