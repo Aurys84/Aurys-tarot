@@ -13,8 +13,6 @@ A kártyák szimbolikus üzeneteket adnak, és támogatják az érzelmi-energeti
 ✨💖 👉 Nyisd meg itt: <a href="https://aurys84.github.io/Aurys-tarot/">Aurysi Lélek Kártyák</a> 💖✨
 </p>
 
-</div>
-
 ---
 
 ## Funkciók
