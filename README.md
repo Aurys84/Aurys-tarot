@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://aurys84.github.io/Aurys-tarot/">
-    <img src="./Polish_20250822_155034560.jpg" alt="Aurysi Lélek Kártyák – előnézet" width="840">
+    <img src="./Polish_20250822_155034560.jpg" alt="Aurysi Lélek Kártyák – előnézet" width="300">
   </a>
 </p>
 
