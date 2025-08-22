@@ -22,19 +22,54 @@
   </div>
 
 <script>
-  const cards = [
-    {
-      img: "1.png",
-      text: "1. Nap és Hold 🌞🌙 – Egyensúly a fény és sötét, a tudatos és a tudattalan között."
-    }
-  ];
+  // ——— KÁRTYÁK ———
+  const cards = Array.from({length: 18}, (_,i) => {
+    const n = i + 1;
+    return {
+      img: `${n}.png`,
+      text: `${n}. kártya – üzenet helye.`
+    };
+  });
 
-  function drawCard() {
-    const c = cards[Math.floor(Math.random()*cards.length)];
-    document.getElementById("cardImg").src = c.img;
-    document.getElementById("cardText").innerText = c.text;
-    document.getElementById("card").style.display = "block";
+  // ——— TTS (Felolvasás) ———
+  function speak(text){
+    try{
+      // Androidon/Chrome-ban segít, ha előbb törlünk minden futó beszédet:
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang  = "hu-HU";   // magyar
+      u.rate  = 0.95;      // lassabb, lágyabb
+      u.pitch = 1.05;      // nőiesebb hangszín
+      speechSynthesis.speak(u);
+    }catch(e){
+      console.warn("TTS nem indult (böngésző tiltja / nincs támogatás).", e);
+    }
   }
+
+  // ——— HÚZÁS ———
+  let last = null;
+
+  function drawCard(ev){
+    if (ev && ev.preventDefault) ev.preventDefault(); // ha gomb <button>-ben lenne formban
+    const c = cards[Math.floor(Math.random()*cards.length)];
+    last = c;
+
+    const img  = document.getElementById("cardImg");
+    const txt  = document.getElementById("cardText");
+    const box  = document.getElementById("card");
+
+    img.src = c.img;
+    txt.innerText = c.text;
+    box.style.display = "block";
+
+    // Minden kattintás után újra olvasson:
+    speak(`${c.text}`);
+  }
+
+  // ——— GOMBOK ———
+  document.addEventListener("DOMContentLoaded", () => {
+    const drawBtn = document.querySelector("button[onclick='drawCard()']");
+    // biztos, hogy TÖBBSZÖR húzható legyen:
+    drawBtn.addEventListener("click", drawCard);
+  });
 </script>
-</body>
-</html>
