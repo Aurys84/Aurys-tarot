@@ -1,7 +1,9 @@
 # Aurysi Lélek Kártyák 🌸✨
 
 <p align="center">
-  <img src="your_image.png" alt="Aurysi Lélek Kártyák" width="300"/>
+  <a href="https://aurys84.github.io/Aurys-tarot/">
+    <img src="./14.png" alt="Aurysi Lélek Kártyák – előnézet" width="840">
+  </a>
 </p>
 
 <p align="center">
