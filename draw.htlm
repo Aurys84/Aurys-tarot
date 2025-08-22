@@ -1,1 +1,40 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aurysi Lélek Kártyák – Húzás</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #f8e9e9; }
+    button { margin: 20px; padding: 12px 20px; border: none; border-radius: 8px; background: #d67; color: #fff; cursor: pointer; }
+    #card { margin-top: 20px; padding: 20px; background: #222; color: #fff; border-radius: 12px; display: inline-block; }
+    img { max-width: 300px; border-radius: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Aurysi Lélek Kártyák 💖</h1>
+  <p>Kattints a gombra, hogy húzz egy kártyát!</p>
+  <button onclick="drawCard()">Kártya húzása</button>
 
+  <div id="card" style="display:none;">
+    <img id="cardImg" src="" alt="Kártya">
+    <p id="cardText"></p>
+  </div>
+
+<script>
+  const cards = [
+    {
+      img: "1.png",
+      text: "1. Nap és Hold 🌞🌙 – Egyensúly a fény és sötét, a tudatos és a tudattalan között."
+    }
+  ];
+
+  function drawCard() {
+    const c = cards[Math.floor(Math.random()*cards.length)];
+    document.getElementById("cardImg").src = c.img;
+    document.getElementById("cardText").innerText = c.text;
+    document.getElementById("card").style.display = "block";
+  }
+</script>
+</body>
+</html>
